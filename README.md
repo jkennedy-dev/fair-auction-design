@@ -1,9 +1,20 @@
-# Repeated Auction Design
-![Repeated Auction Penalisation](img/visualised_data.png)
+<h1 align="center">Repeated Auction Design</h1>
+
+![Repeated Auction Penalisation](images/visualised_data.png)
 
 A solution to the first GTAC project.
 
-## Quick Start
+## 🛠️ Installation
+Before running the project, it makes sense to isolate the environment
+```bash
+python3.12 -m venv venv
+```
+and install the relevant packages
+```bash
+pip3 install -r requirements.txt
+```
+
+## 📊 Visualisation
 Install the necessary packages in python3.12:
 ```bash
 pip install -r requirements.txt

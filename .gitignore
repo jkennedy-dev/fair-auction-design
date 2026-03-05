@@ -1,3 +1,4 @@
 results.csv
+venv/
 __pycache__/
 ./visualised_data.png
