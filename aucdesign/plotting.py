@@ -4,18 +4,11 @@ import pandas as pd
 
 def run_plotting() -> None:
     data = pd.read_csv("results/data.csv")
-    df1, df1_ctrl, df2, df2_ctrl = (pd.DataFrame() for _ in range(4))
-
     # Categorise trajectories
-    for column in data:
-        if column.find("type1_ctrl") != -1:
-            df1_ctrl[column] = data[column]
-        elif column.find("type1_") != -1:
-            df1[column] = data[column]
-        elif column.find("type2_ctrl") != -1:
-            df2_ctrl[column] = data[column]
-        elif column.find("type2_") != -1:
-            df2[column] = data[column]
+    df1      = data[[c for c in data.columns if "type1_" in c and "type1_ctrl" not in c]]
+    df1_ctrl = data[[c for c in data.columns if "type1_ctrl" in c]]
+    df2      = data[[c for c in data.columns if "type2_" in c and "type2_ctrl" not in c]]
+    df2_ctrl = data[[c for c in data.columns if "type2_ctrl" in c]]
 
     # Convert df into a format that is useful for plotting
     def transform_df(df, label):

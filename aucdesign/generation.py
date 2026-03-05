@@ -71,7 +71,7 @@ def simple_valuation(bidder, adspot, ctrs):
 
 
 def run_generation() -> None:
-    n_auctions = 25  # Total number of auction (both + and -)
+    n_auctions = 1000  # Total number of auction (both + and -)
     n_bidders = 15
     n_trajectories = 500
 
