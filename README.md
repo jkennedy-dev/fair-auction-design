@@ -22,10 +22,10 @@ pip install -r requirements.txt
 
 Run auctions and measure the inequality associated with each:
 ```bash
-python generation.py
+python aucdesign/generation.py
 ```
 
 Create a visualisation of the data collected in the previous step:
 ```bash
-python plotting.py
+python aucdesign/plotting.py
 ```
