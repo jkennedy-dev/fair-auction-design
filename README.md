@@ -15,17 +15,8 @@ pip3 install -r requirements.txt
 ```
 
 ## 📊 Visualisation
-Install the necessary packages in python3.12:
+Run the project using the script below. This script simulates auctions, measures the inequality associated with each, and finally creates a visualisation of the collected data (as seen in the image above).
 ```bash
-pip install -r requirements.txt
+python main.py
 ```
 
-Run auctions and measure the inequality associated with each:
-```bash
-python aucdesign/generation.py
-```
-
-Create a visualisation of the data collected in the previous step:
-```bash
-python aucdesign/plotting.py
-```

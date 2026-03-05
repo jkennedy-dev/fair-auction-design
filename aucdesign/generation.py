@@ -1,15 +1,9 @@
-from ad_auction import AdSpot, Bidder, Platform
+from aucdesign.ad_auction import AdSpot, Bidder, Platform
 import random
 from scipy.stats import lognorm, bernoulli
 from math import exp
 import pandas as pd
 from tqdm import tqdm
-
-N_AUCTIONS = 1000  # Total number of auction (both + and -)
-N_BIDDERS = 15
-N_TRAJECTORIES = 500
-
-RANDOM_SEED = 42
 
 
 def inequality(data):
@@ -75,19 +69,26 @@ def simple_valuation(bidder, adspot, ctrs):
     return val
 
 
-if __name__ == "__main__":
+def run_generation() -> None:
+    n_auctions = 25  # Total number of auction (both + and -)
+    n_bidders = 15
+    n_trajectories = 500
+
+    random_seed = 42
+
+
     results = {}
 
     # Independent auction trajectories with different seeds
-    for trajectory in tqdm(range(N_TRAJECTORIES * 2)):
-        if trajectory < N_TRAJECTORIES:
+    for trajectory in tqdm(range(n_trajectories * 2)):
+        if trajectory < n_trajectories:
             prob_plus = 0.4
             prob_minus = 0.6
         else:
             prob_plus = 0.7
             prob_minus = 0.3
 
-        RANDOM_SEED += N_AUCTIONS
+        random_seed += n_auctions
         inequality_steps = 0  # Number of auctions since inequality 0
         inequality_history = []  # Inequality after each auction in trajectory
         inequality_history_ctrl = []  # Inequality without correcting measures
@@ -98,8 +99,8 @@ if __name__ == "__main__":
         collected_data_ctrl = {"+": [], "-": []}
 
         # Single trajectory consisting of repeated auctions
-        for _ in range(N_AUCTIONS):
-            random.seed(RANDOM_SEED)
+        for _ in range(n_auctions):
+            random.seed(random_seed)
 
             # Select group that is targeted in current loop iteration auction
             auction_tag = ["+"] if random.choice([0, 1]) else ["-"]
@@ -109,19 +110,19 @@ if __name__ == "__main__":
             bidders = []
             bidders_ctrl = []
             fairness_score = fairness(inequality(collected_data), inequality_steps)
-            for j in range(N_BIDDERS):
+            for j in range(n_bidders):
                 target = {}
                 target_ctrl = {}
-                target_plus = float(lognorm.rvs(1, 4, 1, random_state=RANDOM_SEED))
-                target_minus = float(lognorm.rvs(1, 2.5, 2, random_state=RANDOM_SEED))
+                target_plus = float(lognorm.rvs(1, 4, 1, random_state=random_seed))
+                target_minus = float(lognorm.rvs(1, 2.5, 2, random_state=random_seed))
 
                 if auction_tag == ["+"] and bernoulli.rvs(
-                    prob_plus, random_state=RANDOM_SEED
+                    prob_plus, random_state=random_seed
                 ):
                     target["+"] = target_plus * fairness_score
                     target_ctrl["+"] = target_plus
                 if auction_tag == ["-"] and bernoulli.rvs(
-                    prob_minus, random_state=RANDOM_SEED
+                    prob_minus, random_state=random_seed
                 ):
                     target["-"] = target_minus * fairness_score
                     target_ctrl["-"] = target_minus
@@ -133,7 +134,7 @@ if __name__ == "__main__":
 
                 bidders.append(Bidder(str(j), target))
                 bidders_ctrl.append(Bidder(str(j), target_ctrl))
-                RANDOM_SEED += 1
+                random_seed += 1
 
             # Calculate outcome of auction
             platform = Platform(bidders)
@@ -164,7 +165,7 @@ if __name__ == "__main__":
             inequality_history_ctrl.append(inequality(collected_data_ctrl))
 
         # Save inequality_history to results
-        if trajectory < N_TRAJECTORIES:
+        if trajectory < n_trajectories:
             results["type1_" + str(trajectory)] = inequality_history
             results["type1_ctrl_" + str(trajectory)] = inequality_history_ctrl
         else:
@@ -174,3 +175,4 @@ if __name__ == "__main__":
     # Save the collected results as a CSV
     results = pd.DataFrame(results)
     results.to_csv("results.csv", index=False)
+

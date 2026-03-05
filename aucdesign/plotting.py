@@ -2,7 +2,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 
-if __name__ == "__main__":
+def run_plotting() -> None:
     data = pd.read_csv("./results.csv")
     df1, df1_ctrl, df2, df2_ctrl = (pd.DataFrame() for _ in range(4))
 
@@ -68,3 +68,4 @@ if __name__ == "__main__":
 
     plt.tight_layout()
     plt.savefig("visualised_data.png", dpi=300)
+
