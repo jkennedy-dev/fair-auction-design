@@ -1,4 +1,5 @@
 from aucdesign.ad_auction import AdSpot, Bidder, Platform
+import os
 import random
 from scipy.stats import lognorm, bernoulli
 from math import exp
@@ -174,5 +175,6 @@ def run_generation() -> None:
 
     # Save the collected results as a CSV
     results = pd.DataFrame(results)
-    results.to_csv("results.csv", index=False)
+    os.makedirs("results/", exist_ok=True)
+    results.to_csv("results/data.csv", index=False)
 

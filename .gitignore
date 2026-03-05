@@ -1,4 +1,3 @@
-results.csv
+results/
 venv/
 __pycache__/
-./visualised_data.png

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 def run_plotting() -> None:
-    data = pd.read_csv("./results.csv")
+    data = pd.read_csv("results/data.csv")
     df1, df1_ctrl, df2, df2_ctrl = (pd.DataFrame() for _ in range(4))
 
     # Categorise trajectories
@@ -67,5 +67,5 @@ def run_plotting() -> None:
     axes2.grid(True, which="major", linestyle="--", linewidth=0.8, alpha=0.6)
 
     plt.tight_layout()
-    plt.savefig("visualised_data.png", dpi=300)
+    plt.savefig("results/visualised_data.png", dpi=300)
 
